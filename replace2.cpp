@@ -140,14 +140,21 @@ int main() {
                 || (x2 == (char)(0x48) && x3 == (char)(0x02) && x4 == (char)(0x8B))
                 || (x2 == (char)(0x43) && x3 == (char)(0x74) && x4 == (char)(0x8B))
                 || (x2 == (char)(0x4B) && x3 == (char)(0x24) && x4 == (char)(0x0F))
+                || (x2 == (char)(0x4B) && x3 == (char)(0x74) && x4 == (char)(0x8B))
+                || (x2 == (char)(0x5D) && x3 == (char)(0x24) && x4 == (char)(0x68))
+                || (x2 == (char)(0x5A) && x3 == (char)(0x24) && x4 == (char)(0xA1))
+                || (x2 == (char)(0x4B) && x3 == (char)(0x74) && x4 == (char)(0xA1))
+                //|| (x2 == (char)(0x5D) && x3 == (char)(0x24) && x4 == (char)(0x80)) //maybe dup as below?
+                || (x2 == (char)(0x5D) && x3 == (char)(0x24) && x4 == (char)(0x8D))
+                || (x2 == (char)(0x5E) && x3 == (char)(0x24) && x4 == (char)(0x57))
 
                 //BAD FUNCTION AT 0x004998F0
                 || (x2 == (char)(0x56) && x3 == (char)(0x74) && x4 == (char)(0x89)) // sure entry
                 || (x2 == (char)(0x56) && x3 == (char)(0x74) && x4 == (char)(0x53)) //same addr as sure entry
-                //|| (x2 == (char)(0x56) && x3 == (char)(0x76) && x4 == (char)(0x89)) //unsure
-                //|| (x2 == (char)(0x4E) && x3 == (char)(0x76) && x4 == (char)(0x8B))
-                //|| (x2 == (char)(0x8E) && x3 == (char)(0x94) && x4 == (char)(0x00) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
-                //|| (x2 == (char)(0x96) && x3 == (char)(0x96) && x4 == (char)(0x00) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
+                || (x2 == (char)(0x56) && x3 == (char)(0x76) && x4 == (char)(0x89)) //unsure
+                || (x2 == (char)(0x4E) && x3 == (char)(0x76) && x4 == (char)(0x8B))
+                || (x2 == (char)(0x8E) && x3 == (char)(0x94) && x4 == (char)(0x00) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
+                || (x2 == (char)(0x96) && x3 == (char)(0x96) && x4 == (char)(0x00) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
 
                 //maybe irrelevant code
                 //|| (count == 0x00161FB1)
@@ -183,6 +190,8 @@ int main() {
                 || (x2 == (char)(0x86) && x3 == (char)(0x76) && x4 == (char)(0x02) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x5F))
                 || (x2 == (char)(0x8F) && x3 == (char)(0x8A) && x4 == (char)(0x00) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
                 || (x2 == (char)(0x80) && x3 == (char)(0x50) && x4 == (char)(0x02) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
+
+                || (x2 == (char)(0xB4) && x3 == (char)(0x54) && x4 == (char)(0xFA) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x00) && x8 == (char)(0xA1))
             )) {
             x1 = (char)(0xB7);
             ofs2 << "Modified, ADDR[" << std::hex << count << "]: " << (unsigned int)(unsigned char)(x0) << ", " << (unsigned int)(unsigned char)(x1) << ", " << (unsigned int)(unsigned char)(x2) 
