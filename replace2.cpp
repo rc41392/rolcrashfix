@@ -147,6 +147,9 @@ int main() {
                 //|| (x2 == (char)(0x5D) && x3 == (char)(0x24) && x4 == (char)(0x80)) //maybe dup as below?
                 || (x2 == (char)(0x5D) && x3 == (char)(0x24) && x4 == (char)(0x8D))
                 || (x2 == (char)(0x5E) && x3 == (char)(0x24) && x4 == (char)(0x57))
+                || (x2 == (char)(0x75) && x3 == (char)(0x24) && x4 == (char)(0x8B)) //unsure but almost sure
+                || (x2 == (char)(0x46) && x3 == (char)(0x24) && x4 == (char)(0x51)) 
+                || (x2 == (char)(0x75) && x3 == (char)(0x00) && x4 == (char)(0x8B)) 
 
                 //BAD FUNCTION AT 0x004998F0
                 || (x2 == (char)(0x56) && x3 == (char)(0x74) && x4 == (char)(0x89)) // sure entry
@@ -190,6 +193,7 @@ int main() {
                 || (x2 == (char)(0x86) && x3 == (char)(0x76) && x4 == (char)(0x02) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x5F))
                 || (x2 == (char)(0x8F) && x3 == (char)(0x8A) && x4 == (char)(0x00) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
                 || (x2 == (char)(0x80) && x3 == (char)(0x50) && x4 == (char)(0x02) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
+                //|| (x2 == (char)(0x80) && x3 == (char)(0x9A) && x4 == (char)(0x00) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0xBF))
 
                 || (x2 == (char)(0xB4) && x3 == (char)(0x54) && x4 == (char)(0xFA) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x00) && x8 == (char)(0xA1))
             )) {
