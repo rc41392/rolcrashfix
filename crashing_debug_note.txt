@@ -1,0 +1,55 @@
+Counter is saved at 0x0131132A 
+Counter is increased at function 0x00629160, address 0x006291C5
+Counter is treated as "Signed Short"
+
+Above is global counter; which is different from unit counter
+
+Unit counter is calculated at function 0x53cd00
+
+Unit Base Address: 152DC800
+Unit Address: Base Address + Unit Counter * 4
+
+---------------------------
+My function:
+0xe4edb0
+moved to new addr: 0xca4620
+
+return 0 means break the loop.
+return 1 means don't break the loop.
+
+---------------------------
+push   ebx
+push   ecx
+push   edx
+test   al,0x1
+jne    lb2
+test   ah,0x1
+jne    lb2
+cmp    WORD PTR [ecx+0x59],0x10
+jne    lb2
+cmp    WORD PTR [ecx+0x60],0x00
+je     lb
+movzx  ebx,word ptr [ecx+0x276]
+mov    eax,dword ptr ds:[0x01310FDE]
+mov    ecx,dword ptr [eax+ebx*4]
+cmp    WORD PTR [ecx+0x59],0x10
+jne    lb2
+
+lb:
+sub    word ptr ds:[0x131132A],0x1
+mov    al,0x0
+jmp    rt
+
+lb2: 
+mov    al,0x1
+
+rt: 
+pop    edx
+pop    ecx
+pop    ebx
+ret 
+---------------------------
+
+Unit size: 0x340
+Notable functions:
+0x52713A: write LOS to unit data
