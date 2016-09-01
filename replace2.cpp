@@ -78,8 +78,9 @@ int main() {
         }
     }
 
-    while(!ifs.eof()) {
+    while(1) {
         ifs.read(&x0, sizeof( char ) );
+        if(ifs.eof()) break;
         ofs.write(&x0,  sizeof( char ) );
     }
 
