@@ -21,21 +21,45 @@ return 1 means don't break the loop.
 push   ebx
 push   ecx
 push   edx
+push   esi
 test   al,0x1
 jne    lb2
 test   ah,0x1
 jne    lb2
 cmp    WORD PTR [ecx+0x59],0x10
 jne    lb2
-cmp    WORD PTR [ecx+0x60],0x00
-je     lb
 movzx  ebx,word ptr [ecx+0x276]
 mov    eax,dword ptr ds:[0x01310FDE]
-mov    ecx,dword ptr [eax+ebx*4]
-cmp    WORD PTR [ecx+0x59],0x10
-jne    lb2
+mov    edx,ecx                          ;edx <- cur member
+mov    ecx,dword ptr [eax+ebx*4]        ;ecx <- head of list
+cmp    WORD PTR [ecx+0x59],0x10         ;check if head is dead
+je     lb
 
-lb:
+xor    esi, esi                         ;reset esi to 0
+lp:
+movzx  ebx, WORD PTR [ecx+0x274]        ;head is alive, loop through the list to check whether cur member is in the lists
+cmp    ebx, 0x0000ffff                  ;check if next member exists
+je     lb                               ;not exists then return 0
+cmp    ebx, edi                         ;check if next member is cur member
+je     lb2                              ;it is cur member, return 1
+add    esi,0x1                          ;increase esi
+cmp    esi,0x10                         ;check whether 16 members looped, squad can't have more than 16 member
+je     lb                               ;if 16 reached return 0
+mov    ecx,dword ptr [eax+ebx*4]        ;ecx <- next member
+jmp    lp                               ;can't decide yet, go to next iteration check
+
+lb: 
+mov    dword ptr [edx],0x0              ;clear memory for later use
+mov    dword ptr [edx+0x8],0x0
+mov    dword ptr [edx+0xF8],0x0
+mov    dword ptr [edx+0x118],0x0
+mov    dword ptr [edx+0x158],0x0
+mov    dword ptr [edx+0x198],0x0
+mov    dword ptr [edx+0x158],0x0
+mov    dword ptr [edx+0x218],0x0
+mov    dword ptr [edx+0x2A0],0x0
+mov    dword ptr [edx+0x2F0],0x0
+mov    dword ptr [edx+0x33C],0x0
 sub    word ptr ds:[0x131132A],0x1
 mov    al,0x0
 jmp    rt
@@ -44,11 +68,106 @@ lb2:
 mov    al,0x1
 
 rt: 
+pop    esi
 pop    edx
 pop    ecx
 pop    ebx
 ret 
----------------------------
+--------------NO COMMENT VERSION----------------
+push   ebx
+push   ecx
+push   edx
+push   esi
+test   al,0x1
+jne    lb2
+test   ah,0x1
+jne    lb2
+cmp    WORD PTR [ecx+0x59],0x10
+jne    lb2
+movzx  ebx,word ptr [ecx+0x276]
+mov    eax,dword ptr ds:[0x01310FDE]
+mov    edx,ecx                         
+mov    ecx,dword ptr [eax+ebx*4]        
+cmp    WORD PTR [ecx+0x59],0x10         
+je     lb
+
+xor    esi, esi                         
+lp:
+movzx  ebx, WORD PTR [ecx+0x274]        
+cmp    ebx, 0x0000ffff                 
+je     lb                              
+cmp    ebx, edi                       
+je     lb2                           
+add    esi,0x1                        
+cmp    esi,0x10                        
+je     lb                               
+mov    ecx,dword ptr [eax+ebx*4]        
+jmp    lp                              
+
+lb: 
+sub    word ptr ds:[0x131132A],0x1
+mov    al,0x0
+jmp    rt
+
+lb2: 
+mov    al,0x1
+
+rt: 
+pop    esi
+pop    edx
+pop    ecx
+pop    ebx
+ret 
+-----------------------------------
+
+--------------NO MEMORY CLEAR VERSION----------------
+push   ebx
+push   ecx
+push   edx
+push   esi
+test   al,0x1
+jne    lb2
+test   ah,0x1
+jne    lb2
+cmp    WORD PTR [ecx+0x59],0x10
+jne    lb2
+movzx  ebx,word ptr [ecx+0x276]
+cmp    ebx, edi
+je     lb
+mov    eax,dword ptr ds:[0x01310FDE]
+mov    edx,ecx                         
+mov    ecx,dword ptr [eax+ebx*4]        
+cmp    WORD PTR [ecx+0x59],0x10         
+je     lb
+
+xor    esi, esi                         
+lp:
+movzx  ebx, WORD PTR [ecx+0x274]        
+cmp    ebx, 0x0000ffff                 
+je     lb                              
+cmp    ebx, edi                       
+je     lb2                           
+add    esi,0x1                        
+cmp    esi,0x10                        
+je     lb                               
+mov    ecx,dword ptr [eax+ebx*4]        
+jmp    lp                              
+
+lb:
+sub    word ptr ds:[0x131132A],0x1 
+mov    al,0x0
+jmp    rt
+
+lb2: 
+mov    al,0x1
+
+rt: 
+pop    esi
+pop    edx
+pop    ecx
+pop    ebx
+ret 
+-----------------------------------
 
 Unit size: 0x340
 Notable functions:
