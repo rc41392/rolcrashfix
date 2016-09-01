@@ -1,223 +1,92 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
+
+char get_val(char x) {
+    if(x=='0') return (char)0;
+    if(x=='1') return (char)1;
+    if(x=='2') return (char)2;
+    if(x=='3') return (char)3;
+    if(x=='4') return (char)4;
+    if(x=='5') return (char)5;
+    if(x=='6') return (char)6;
+    if(x=='7') return (char)7;
+    if(x=='8') return (char)8;
+    if(x=='9') return (char)9;
+    if(x=='A') return (char)10;
+    if(x=='B') return (char)11;
+    if(x=='C') return (char)12;
+    if(x=='D') return (char)13;
+    if(x=='E') return (char)14;
+    if(x=='F') return (char)15;
+    return (char)0;
+}
+
+char parse_byte(string s) {
+    char ch_10 = get_val(s[0]);
+    char ch_1 = get_val(s[1]);
+    char ch = (ch_10 << 4) | (ch_1);
+    return ch;
+}
+
+int parse_addr(string s) {
+    int b_1000000 = (int)(unsigned char)parse_byte(s.substr(0,2));
+    int b_10000 = (int)(unsigned char)parse_byte(s.substr(2,2));
+    int b_100 = (int)(unsigned char)parse_byte(s.substr(4,2));
+    int b_1 = (int)(unsigned char)parse_byte(s.substr(6,2));
+    return (b_1000000 << 24) | (b_10000 << 16) | (b_100 << 8) | (b_1);
+}
 
 int main() {
     ifstream ifs("legendsfix4.exe.bin", ios::in | ios::out | ios::binary);
+    ifstream ifs2("fix_diff.txt");
     ofstream ofs("legendsfix4.exe.bin2", ios::out|ios::binary);
     ofstream ofs2("log.txt", ios::out);
-    char x;
-    char x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11;
-    int count = 0;
-    ifs >> x0;
-    ifs >> x1;
-    ifs >> x2;
-    ifs >> x3;
-    ifs >> x4;
-    ifs >> x5;
-    ifs >> x6;
-    ifs >> x7;
-    ifs >> x8;
-    ifs >> x9;
-    ifs >> x10;
-    ifs >> x11;
-    ofs << x0;
-    while(!ifs .eof()) {
-        count ++;
-        ifs.read(&x, sizeof( char ) );
-        x0 = x1;
-        x1 = x2;
-        x2 = x3;
-        x3 = x4;
-        x4 = x5;
-        x5 = x6;
-        x6 = x7;
-        x7 = x8;
-        x8 = x9;
-        x9 = x10;
-        x10 = x11;
-        x11 = x;
-        ofs.write(&x0,  sizeof( char ) );
-        if(x0 == (char)(0x0F) && x1 == (char)(0xBF) && (
-                (x2 == (char)(0x46) && x3 == (char)(0x24) && x4 == (char)(0x8B)) 
-                || (x2 == (char)(0x4E) && x3 == (char)(0x24) && x4 == (char)(0x8B)) 
-                || (x2 == (char)(0x4B) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x56) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x46) && x3 == (char)(0x74) && x4 == (char)(0x8B)) 
-                || (x2 == (char)(0x4E) && x3 == (char)(0x74) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x47) && x3 == (char)(0x74) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x4F) && x3 == (char)(0x74) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x57) && x3 == (char)(0x74) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x47) && x3 == (char)(0x74) && x4 == (char)(0x88))
-                || (x2 == (char)(0x4E) && x3 == (char)(0x74) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x45) && x3 == (char)(0x74) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x55) && x3 == (char)(0x74) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x47) && x3 == (char)(0x74) && x4 == (char)(0xC7))
-                || (x2 == (char)(0x43) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x4F) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x45) && x3 == (char)(0x74) && x4 == (char)(0x0F))
-                || (x2 == (char)(0x4D) && x3 == (char)(0x74) && x4 == (char)(0x88))
-                || (x2 == (char)(0x47) && x3 == (char)(0x74) && x4 == (char)(0x53))
-                || (x2 == (char)(0x55) && x3 == (char)(0x24) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x4F) && x3 == (char)(0x24) && x4 == (char)(0x56))
-                || (x2 == (char)(0x4D) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x45) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x43) && x3 == (char)(0x24) && x4 == (char)(0x57))
-                || (x2 == (char)(0x37) && x3 == (char)(0x8B) && x4 == (char)(0x0D))
-                || (x2 == (char)(0x30) && x3 == (char)(0x8B) && x4 == (char)(0x0D))
-                || (x2 == (char)(0x38) && x3 == (char)(0x8B) && x4 == (char)(0x0D))
-                || (x2 == (char)(0x7C) && x3 == (char)(0x41) && x4 == (char)(0x5A))
-                || (x2 == (char)(0x5D) && x3 == (char)(0x00) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x0B) && x3 == (char)(0x8B) && x4 == (char)(0x15))
-                || (x2 == (char)(0x28) && x3 == (char)(0x8B) && x4 == (char)(0x0D))
-                || (x2 == (char)(0x5D) && x3 == (char)(0x24) && x4 == (char)(0x50))
-                || (x2 == (char)(0x56) && x3 == (char)(0x74) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x57) && x3 == (char)(0x74) && x4 == (char)(0x89))
-                || (x2 == (char)(0x55) && x3 == (char)(0x24) && x4 == (char)(0x50))
-                || (x2 == (char)(0x5D) && x3 == (char)(0x24) && x4 == (char)(0x57))
-                || (x2 == (char)(0x41) && x3 == (char)(0x4A) && x4 == (char)(0x99))
-                || (x2 == (char)(0x41) && x3 == (char)(0x48) && x4 == (char)(0x99))
-                || (x2 == (char)(0x50) && x3 == (char)(0x24) && x4 == (char)(0x89))
-                || (x2 == (char)(0x50) && x3 == (char)(0x4A) && x4 == (char)(0x89))
-                || (x2 == (char)(0x40) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x5D) && x3 == (char)(0x24) && x4 == (char)(0x56))
-                || (x2 == (char)(0x45) && x3 == (char)(0x74) && x4 == (char)(0xC6))
-                || (x2 == (char)(0x4D) && x3 == (char)(0x74) && x4 == (char)(0xC7))
-                || (x2 == (char)(0x55) && x3 == (char)(0x24) && x4 == (char)(0x52))
-                || (x2 == (char)(0x45) && x3 == (char)(0x24) && x4 == (char)(0x50))
-                || (x2 == (char)(0x55) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x45) && x3 == (char)(0x58) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x45) && x3 == (char)(0x58) && x4 == (char)(0x3B))
-                || (x2 == (char)(0x4E) && x3 == (char)(0x5A) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x53) && x3 == (char)(0x24) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x78) && x3 == (char)(0x02) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x70) && x3 == (char)(0x02) && x4 == (char)(0x74))
-                || (x2 == (char)(0x57) && x3 == (char)(0x74) && x4 == (char)(0xC6))
-                || (x2 == (char)(0x47) && x3 == (char)(0x74) && x4 == (char)(0x89))
-                || (x2 == (char)(0x45) && x3 == (char)(0x74) && x4 == (char)(0x88))
-                || (x2 == (char)(0x4E) && x3 == (char)(0x5C) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x42) && x3 == (char)(0x24) && x4 == (char)(0xC2))
-                || (x2 == (char)(0x4D) && x3 == (char)(0x74) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x53) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x7B) && x3 == (char)(0x24) && x4 == (char)(0x69))
-                || (x2 == (char)(0x46) && x3 == (char)(0x24) && x4 == (char)(0x50))
-                || (x2 == (char)(0x46) && x3 == (char)(0x22) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x4A) && x3 == (char)(0x5C) && x4 == (char)(0x05))
-                || (x2 == (char)(0x4F) && x3 == (char)(0x22) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x47) && x3 == (char)(0x22) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x58) && x3 == (char)(0x22) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x56) && x3 == (char)(0x22) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x56) && x3 == (char)(0x22) && x4 == (char)(0x6A))
-                || (x2 == (char)(0x7E) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x45) && x3 == (char)(0x00) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x41) && x3 == (char)(0x22) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x47) && x3 == (char)(0x74) && x4 == (char)(0xB3))
-                || (x2 == (char)(0x47) && x3 == (char)(0x74) && x4 == (char)(0x33))
-                || (x2 == (char)(0x56) && x3 == (char)(0x24) && x4 == (char)(0x6A))
-                || (x2 == (char)(0x4B) && x3 == (char)(0x22) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x68) && x3 == (char)(0x22) && x4 == (char)(0x75))
-                || (x2 == (char)(0x47) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x43) && x3 == (char)(0x24) && x4 == (char)(0xC1))
-                || (x2 == (char)(0x56) && x3 == (char)(0x24) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x58) && x3 == (char)(0x22) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x55) && x3 == (char)(0x02) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x7E) && x3 == (char)(0x02) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x7E) && x3 == (char)(0x24) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x55) && x3 == (char)(0x22) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x57) && x3 == (char)(0x24) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x53) && x3 == (char)(0x22) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x53) && x3 == (char)(0x24) && x4 == (char)(0x51))
-                || (x2 == (char)(0x4E) && x3 == (char)(0x24) && x4 == (char)(0x52))
-                || (x2 == (char)(0x46) && x3 == (char)(0x24) && x4 == (char)(0x0F))
-                || (x2 == (char)(0x77) && x3 == (char)(0x24) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x4D) && x3 == (char)(0x24) && x4 == (char)(0x51))
-                || (x2 == (char)(0x4E) && x3 == (char)(0x24) && x4 == (char)(0x8D))
-                || (x2 == (char)(0x4E) && x3 == (char)(0x24) && x4 == (char)(0x89))
-                || (x2 == (char)(0x47) && x3 == (char)(0x74) && x4 == (char)(0xC6))
-                || (x2 == (char)(0x45) && x3 == (char)(0x24) && x4 == (char)(0x69))
-                || (x2 == (char)(0x43) && x3 == (char)(0x74) && x4 == (char)(0xF3))
-                || (x2 == (char)(0x53) && x3 == (char)(0x74) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x48) && x3 == (char)(0x02) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x43) && x3 == (char)(0x74) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x4B) && x3 == (char)(0x24) && x4 == (char)(0x0F))
-                || (x2 == (char)(0x4B) && x3 == (char)(0x74) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x5D) && x3 == (char)(0x24) && x4 == (char)(0x68))
-                || (x2 == (char)(0x5A) && x3 == (char)(0x24) && x4 == (char)(0xA1))
-                || (x2 == (char)(0x4B) && x3 == (char)(0x74) && x4 == (char)(0xA1))
-                //|| (x2 == (char)(0x5D) && x3 == (char)(0x24) && x4 == (char)(0x80)) //maybe dup as below?
-                || (x2 == (char)(0x5D) && x3 == (char)(0x24) && x4 == (char)(0x8D))
-                || (x2 == (char)(0x5E) && x3 == (char)(0x24) && x4 == (char)(0x57))
-                || (x2 == (char)(0x75) && x3 == (char)(0x24) && x4 == (char)(0x8B)) //unsure but almost sure
-                || (x2 == (char)(0x46) && x3 == (char)(0x24) && x4 == (char)(0x51)) 
-                || (x2 == (char)(0x75) && x3 == (char)(0x00) && x4 == (char)(0x8B)) 
+    char x, x0;
+    string line;
+    int addr_num = 0, count = 0;
+    while(std::getline(ifs2, line)) {
+        addr_num = parse_addr(line);
+        //ifs.seekg(line_num, ios_base::beg);
+        while(addr_num > count) {
+            count ++;
+            ifs.read(&x0, sizeof( char ) );
+            ofs.write(&x0,  sizeof( char ) );
+        }
+        ifs.read(&x0, sizeof( char ) );
+        x = parse_byte(line.substr(10, 2));
 
-                //BAD FUNCTION AT 0x004998F0
-                || (x2 == (char)(0x56) && x3 == (char)(0x74) && x4 == (char)(0x89)) // sure entry
-                || (x2 == (char)(0x56) && x3 == (char)(0x74) && x4 == (char)(0x53)) //same addr as sure entry
-                || (x2 == (char)(0x56) && x3 == (char)(0x76) && x4 == (char)(0x89)) //unsure
-                || (x2 == (char)(0x4E) && x3 == (char)(0x76) && x4 == (char)(0x8B))
-                || (x2 == (char)(0x8E) && x3 == (char)(0x94) && x4 == (char)(0x00) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
-                || (x2 == (char)(0x96) && x3 == (char)(0x96) && x4 == (char)(0x00) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
-
-                //maybe irrelevant code
-                //|| (count == 0x00161FB1)
-                //|| (count == 0x00161DB9)
-                //|| (x2 == (char)(0x46) && x3 == (char)(0x0C) && x4 == (char)(0x6A) && x5 == (char)(0x01) && x6 == (char)(0x8B) && x7 == (char)(0xCE) && x8 == (char)(0xE8) )
-
-                || (x2 == (char)(0x44) && x3 == (char)(0x24) && x4 == (char)(0x4C))
-
-                //movsx with test after
-                //|| (x2 == (char)(0x44) && x3 == (char)(0x08) && x4 == (char)(0x0E))
-                //|| (x2 == (char)(0x76) && x3 == (char)(0x24) && x4 == (char)(0x85))
-
-                || (x2 == (char)(0x3A) && x3 == (char)(0xA1) && x4 == (char)(0xDE) && x5 == (char)(0x0F))
-                || (x2 == (char)(0x33) && x3 == (char)(0xA1) && x4 == (char)(0xDE) && x5 == (char)(0x0F))
-                || (x2 == (char)(0x3B) && x3 == (char)(0xA1) && x4 == (char)(0xDE) && x5 == (char)(0x0F))
-
-                || (x2 == (char)(0x32) && x3 == (char)(0xA1) && x4 == (char)(0xDE) && x5 == (char)(0x0F) && x6 == (char)(0x31))
-
-                //|| (x3 == (char)(0xA1) && x4 == (char)(0xDE) && x5 == (char)(0x0F) && x6 == (char)(0x31))
-                //|| (x4 == (char)(0xA1) && x5 == (char)(0xDE) && x6 == (char)(0x0F) && x7 == (char)(0x31))
-                //|| (x5 == (char)(0xA1) && x6 == (char)(0xDE) && x7 == (char)(0x0F) && x8 == (char)(0x31))
-                //|| (x6 == (char)(0xA1) && x7 == (char)(0xDE) && x8 == (char)(0x0F) && x9 == (char)(0x31))
-                //|| (x7 == (char)(0xA1) && x8 == (char)(0xDE) && x9 == (char)(0x0F) && x10 == (char)(0x31))
-                //|| (x8 == (char)(0xA1) && x9 == (char)(0xDE) && x10 == (char)(0x0F) && x11 == (char)(0x31))
-                
-                //|| (x2 == (char)(0x8F) && x3 == (char)(0x9E) && x4 == (char)(0x02) && x5 == (char)(0x00) && x6 == (char)(0x00))
-               // || (x2 == (char)(0x97) && x3 == (char)(0xA2) && x4 == (char)(0x02) && x5 == (char)(0x00) && x6 == (char)(0x00))
-
-                || (x2 == (char)(0x07) && x3 == (char)(0x8B) && x4 == (char)(0x2D) && x5 == (char)(0xDE))
-                || (x2 == (char)(0x07) && x3 == (char)(0x8B) && x4 == (char)(0x0D) && x5 == (char)(0xDE))
-                || (x2 == (char)(0x18) && x3 == (char)(0x8B) && x4 == (char)(0x0D) && x5 == (char)(0xDE))
-
-                || (x2 == (char)(0x86) && x3 == (char)(0x76) && x4 == (char)(0x02) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x5F))
-                || (x2 == (char)(0x8F) && x3 == (char)(0x8A) && x4 == (char)(0x00) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
-                || (x2 == (char)(0x80) && x3 == (char)(0x50) && x4 == (char)(0x02) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x8B))
-                //|| (x2 == (char)(0x80) && x3 == (char)(0x9A) && x4 == (char)(0x00) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0xBF))
-
-                || (x2 == (char)(0xB4) && x3 == (char)(0x54) && x4 == (char)(0xFA) && x5 == (char)(0x00) && x6 == (char)(0x00) && x7 == (char)(0x00) && x8 == (char)(0xA1))
-            )) {
-            x1 = (char)(0xB7);
-            ofs2 << "Modified, ADDR[" << std::hex << count << "]: " << (unsigned int)(unsigned char)(x0) << ", " << (unsigned int)(unsigned char)(x1) << ", " << (unsigned int)(unsigned char)(x2) 
-                << ", " << (unsigned int)(unsigned char)(x3) << ", " << (unsigned int)(unsigned char)(x4) << ", " << (unsigned int)(unsigned char)(x5) 
-                << ", " << (unsigned int)(unsigned char)(x6) << ", " << (unsigned int)(unsigned char)(x7) << ", " << (unsigned int)(unsigned char)(x8)
-                << ", " << (unsigned int)(unsigned char)(x9) << ", " << (unsigned int)(unsigned char)(x10) << ", " << (unsigned int)(unsigned char)(x11)
-                << std::endl;
+        if(x==x0) {
+            for(int i = 13; i < line.length(); i += 2) {
+                x = parse_byte(line.substr(i, 2));
+                //increase input file position
+                if(i != 13)
+                    ifs.read(&x0, sizeof( char ) );
+                ofs.write(&x,  sizeof( char ) );
+                count ++;
+            }
+            ofs2 << "Write successfully at address " << std::hex << addr_num << "." << std::endl;
+        } else {
+            ofs2 << "Write failed at address " << std::hex << addr_num << ", original byte {" << 
+                (int)(unsigned char)x0 << ", " << (int)(unsigned char)x << "} does not match." << std::endl;
+            ifs.close();
+            ofs.close();
+            ifs2.close();
+            ofs2.close();
+            return 1;
         }
     }
-    ofs << x2;
-    ofs << x3;
-    ofs << x4;
-    ofs << x5;
-    ofs << x6;
-    ofs << x7;
-    ofs << x8;
-    ofs << x9;
-    ofs << x10;
-    ofs << x11;
+
+    while(!ifs.eof()) {
+        ifs.read(&x0, sizeof( char ) );
+        ofs.write(&x0,  sizeof( char ) );
+    }
 
     ifs.close();
     ofs.close();
+    ifs2.close();
+    ofs2.close();
 
     return 0;
 }
