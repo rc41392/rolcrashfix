@@ -120,24 +120,32 @@ pop    ebx
 ret 
 -----------------------------------
 
---------------NO MEMORY CLEAR VERSION----------------
+--------------NO MEMORY CLEAR VERSION(USE THIS)----------------
 push   ebx
 push   ecx
 push   edx
 push   esi
+cmp    dword ptr[ecx], 0x010F97A0
+jne    lb2
 test   al,0x1
 jne    lb2
 test   ah,0x1
 jne    lb2
-cmp    WORD PTR [ecx+0x59],0x10
+cmp    BYTE PTR [ecx+0x59],0x10
+je     lb3
+cmp    BYTE PTR [ecx+0x59],0x90
 jne    lb2
+
+lb3:
 movzx  ebx,word ptr [ecx+0x276]
 cmp    ebx, edi
 je     lb
 mov    eax,dword ptr ds:[0x01310FDE]
 mov    edx,ecx                         
 mov    ecx,dword ptr [eax+ebx*4]        
-cmp    WORD PTR [ecx+0x59],0x10         
+cmp    BYTE PTR [ecx+0x59],0x10
+je     lb
+cmp    BYTE PTR [ecx+0x59],0x90         
 je     lb
 
 xor    esi, esi                         
