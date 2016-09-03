@@ -125,6 +125,7 @@ push   ebx
 push   ecx
 push   edx
 push   esi
+mov    edx,ecx 
 cmp    dword ptr[ecx], 0x010F97A0
 jne    lb2
 test   al,0x1
@@ -140,8 +141,7 @@ lb3:
 movzx  ebx,word ptr [ecx+0x276]
 cmp    ebx, edi
 je     lb
-mov    eax,dword ptr ds:[0x01310FDE]
-mov    edx,ecx                         
+mov    eax,dword ptr ds:[0x01310FDE]                        
 mov    ecx,dword ptr [eax+ebx*4]        
 cmp    BYTE PTR [ecx+0x59],0x10
 je     lb
@@ -162,6 +162,9 @@ mov    ecx,dword ptr [eax+ebx*4]
 jmp    lp                              
 
 lb:
+add    BYTE PTR [edx+0x5a],0x1
+cmp    BYTE PTR [edx+0x5a],0x13
+jne    lb2
 sub    word ptr ds:[0x131132A],0x1 
 mov    al,0x0
 jmp    rt
