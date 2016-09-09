@@ -163,8 +163,9 @@ jmp    lp
 
 lb:
 add    BYTE PTR [edx+0x5a],0x1
-cmp    BYTE PTR [edx+0x5a],0x13
+cmp    BYTE PTR [edx+0x5a],0x2d
 jne    lb2
+mov    BYTE PTR [edx+0x5a],0x0
 sub    word ptr ds:[0x131132A],0x1 
 mov    al,0x0
 jmp    rt
